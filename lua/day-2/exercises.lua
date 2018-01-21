@@ -43,16 +43,21 @@ treasure = {}
 setmetatable(treasure, strict_mt)
 
 -- Medium
--- Commented as it will interfere with the other exercises
--- setmetatable(_G, {
---   __newindex = function (table, key, value)
---     if type(value) == "table" then
---       rawset(table, key, setmetatable(value, { __add = concatenate }))
---     else
---       rawset(table, key, value)
---     end
---   end
--- })
+setmetatable(_G, {
+  __newindex = function (table, key, value)
+    if type(value) == "table" then
+      -- Override + for any tables set as global variables
+      rawset(table, key, setmetatable(value, {
+        __add = concatenate,
+
+        -- Hook up value's original metatable for any other lookups
+        __index = getmetatable(value)
+      }))
+    else
+      rawset(table, key, value)
+    end
+  end
+})
 
 Queue = { queue = {} }
 
