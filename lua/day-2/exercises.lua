@@ -59,10 +59,10 @@ function override_add(value)
     return value
   end
 
-  return setmetatable(value, {
-    __add = concatenate,
-    __index = getmetatable(value)
-  })
+  local mt = getmetatable(value) or {}
+  mt.__add = concatenate
+
+  return setmetatable(value, mt)
 end
 
 setmetatable(_G, {
@@ -83,8 +83,7 @@ Queue = { queue = {} }
 function Queue:new()
   local obj = { queue = self.queue }
 
-  setmetatable(obj, self)
-  self.__index = self
+  setmetatable(obj, { __index = self })
 
   return obj
 end
