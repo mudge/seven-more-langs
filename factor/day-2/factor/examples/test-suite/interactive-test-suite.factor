@@ -5,8 +5,12 @@ USE: examples.strings
 USE: examples.sequences
 IN: examples.test-suite
 
-: print-test-runs ( -- )
-    [ "examples" test ]
+: ask-for-vocab ( -- str )
+    "Which vocabulary do you wish to test?" print flush
+    readln ;
+
+: print-test-runs ( str -- )
+    [ test ] curry
     with-string-writer
     string-lines [ "Unit Test: " head? ] filter length
     number>string " tests run." append
@@ -17,6 +21,7 @@ IN: examples.test-suite
     [ "All tests passed." print ] [ :test-failures ] if ;
 
 : test-all-examples ( -- )
+    ask-for-vocab
     print-test-runs
     print-test-failures ;
 
