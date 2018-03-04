@@ -1,5 +1,5 @@
-USING: tools.test io io.streams.string math.parser splitting ;
-USING: kernel namespaces sequences ;
+USING: io io.streams.string kernel math.parser namespaces
+sequences splitting tools.test ;
 USE: examples.greeter
 USE: examples.strings
 USE: examples.sequences
